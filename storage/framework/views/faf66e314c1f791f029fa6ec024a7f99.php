@@ -5,9 +5,9 @@
                 <p class="mb-0">
                     <script>
                         document.write(new Date().getFullYear())
-                    </script> &copy; MIS</a>
+                    </script> &copy; VacayGuider</a>
                 </p>
             </div>
         </div>
     </div>
-</footer>
+</footer><?php /**PATH F:\Personal Projects\Infotech\mis\resources\views/layouts/partials/footer.blade.php ENDPATH**/ ?>
