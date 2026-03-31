@@ -1,7 +1,7 @@
-@extends('layouts.vertical', ['subtitle' => 'Employee View'])
 
-@section('content')
-    @include('layouts.partials.page-title', ['title' => 'Employees', 'subtitle' => 'Profile'])
+
+<?php $__env->startSection('content'); ?>
+    <?php echo $__env->make('layouts.partials.page-title', ['title' => 'Employees', 'subtitle' => 'Profile'], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <style>
         .employee-view-page .main-card,
@@ -302,10 +302,10 @@
                     <h5 class="card-title mb-0">Employee Profile</h5>
 
                     <div class="employee-topbar-actions">
-                        <a href="{{ route('admin.employees.edit', $employee->id) }}" class="btn btn-warning btn-sm" style="width: 150px;">
+                        <a href="<?php echo e(route('admin.employees.edit', $employee->id)); ?>" class="btn btn-warning btn-sm" style="width: 150px;">
                             Edit Employee
                         </a>
-                        <a href="{{ route('admin.employees.index') }}" class="btn btn-light btn-sm" style="width: 150px;">
+                        <a href="<?php echo e(route('admin.employees.index')); ?>" class="btn btn-light btn-sm" style="width: 150px;">
                             Back
                         </a>
                     </div>
@@ -313,70 +313,72 @@
             </div>
 
             <div class="card-body">
-                {{-- Hero --}}
+                
                 <div class="profile-hero">
                     <div class="row align-items-center">
                         <div class="col-lg-8 mb-3 mb-lg-0">
-                            <div class="profile-name">{{ $employee->full_name ?? '-' }}</div>
+                            <div class="profile-name"><?php echo e($employee->full_name ?? '-'); ?></div>
 
                             <div class="profile-meta">
-                                Employee No: <strong>{{ $employee->employee_no ?? '-' }}</strong>
+                                Employee No: <strong><?php echo e($employee->employee_no ?? '-'); ?></strong>
                             </div>
 
                             <div class="profile-meta">
-                                {{ $employee->designation ?? 'No Designation' }}
-                                @if($employee->department)
-                                    • {{ $employee->department }}
-                                @endif
+                                <?php echo e($employee->designation ?? 'No Designation'); ?>
+
+                                <?php if($employee->department): ?>
+                                    • <?php echo e($employee->department); ?>
+
+                                <?php endif; ?>
                             </div>
 
                             <div class="profile-meta">
-                                @if($employee->service_number)
-                                    Service No: <strong>{{ $employee->service_number }}</strong>
-                                @endif
+                                <?php if($employee->service_number): ?>
+                                    Service No: <strong><?php echo e($employee->service_number); ?></strong>
+                                <?php endif; ?>
 
-                                @if($employee->rank)
-                                    @if($employee->service_number) • @endif
-                                    Rank: <strong>{{ $employee->rank }}</strong>
-                                @endif
+                                <?php if($employee->rank): ?>
+                                    <?php if($employee->service_number): ?> • <?php endif; ?>
+                                    Rank: <strong><?php echo e($employee->rank); ?></strong>
+                                <?php endif; ?>
 
-                                @if($employee->site_location)
-                                    @if($employee->service_number || $employee->rank) • @endif
-                                    Site: <strong>{{ $employee->site_location }}</strong>
-                                @endif
+                                <?php if($employee->site_location): ?>
+                                    <?php if($employee->service_number || $employee->rank): ?> • <?php endif; ?>
+                                    Site: <strong><?php echo e($employee->site_location); ?></strong>
+                                <?php endif; ?>
                             </div>
                         </div>
 
                         <div class="col-lg-4 text-lg-end">
-                            @if($employee->status == 'Active')
+                            <?php if($employee->status == 'Active'): ?>
                                 <span class="status-badge-clean active">Active</span>
-                            @else
+                            <?php else: ?>
                                 <span class="status-badge-clean inactive">Inactive</span>
-                            @endif
+                            <?php endif; ?>
                         </div>
                     </div>
                 </div>
 
-                {{-- Quick Summary --}}
+                
                 <div class="row g-3 mb-4">
                     <div class="col-md-3 col-sm-6">
                         <div class="summary-card">
                             <div class="summary-label">Phone</div>
-                            <div class="summary-value">{{ $employee->phone ?? '-' }}</div>
+                            <div class="summary-value"><?php echo e($employee->phone ?? '-'); ?></div>
                         </div>
                     </div>
 
                     <div class="col-md-3 col-sm-6">
                         <div class="summary-card">
                             <div class="summary-label">Email</div>
-                            <div class="summary-value">{{ $employee->email ?? '-' }}</div>
+                            <div class="summary-value"><?php echo e($employee->email ?? '-'); ?></div>
                         </div>
                     </div>
 
                     <div class="col-md-3 col-sm-6">
                         <div class="summary-card">
                             <div class="summary-label">Join Date</div>
-                            <div class="summary-value">{{ optional($employee->join_date)->format('Y-m-d') ?? '-' }}</div>
+                            <div class="summary-value"><?php echo e(optional($employee->join_date)->format('Y-m-d') ?? '-'); ?></div>
                         </div>
                     </div>
 
@@ -384,13 +386,14 @@
                         <div class="summary-card">
                             <div class="summary-label">Salary</div>
                             <div class="summary-value">
-                                {{ $employee->salary !== null ? number_format($employee->salary, 2) : '-' }}
+                                <?php echo e($employee->salary !== null ? number_format($employee->salary, 2) : '-'); ?>
+
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Basic Details --}}
+                
                 <div class="card section-card mb-4">
                     <div class="card-header">
                         <h6 class="section-heading">Basic Employee Details</h6>
@@ -400,38 +403,38 @@
                         <div class="info-grid">
                             <div class="info-item">
                                 <div class="info-label">Employee Number</div>
-                                <div class="info-value">{{ $employee->employee_no ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->employee_no ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Full Name</div>
-                                <div class="info-value">{{ $employee->full_name ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->full_name ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Name With Initials</div>
-                                <div class="info-value">{{ $employee->name_with_initials ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->name_with_initials ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">NIC</div>
-                                <div class="info-value">{{ $employee->nic ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->nic ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Phone</div>
-                                <div class="info-value">{{ $employee->phone ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->phone ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Email</div>
-                                <div class="info-value">{{ $employee->email ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->email ?? '-'); ?></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Record Information --}}
+                
                 <div class="card section-card mb-4">
                     <div class="card-header">
                         <h6 class="section-heading">Record Information</h6>
@@ -441,29 +444,29 @@
                         <div class="info-grid">
                             <div class="info-item">
                                 <div class="info-label">Record Date</div>
-                                <div class="info-value">{{ optional($employee->rec_date)->format('Y-m-d') ?? '-' }}</div>
+                                <div class="info-value"><?php echo e(optional($employee->rec_date)->format('Y-m-d') ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Join Date</div>
-                                <div class="info-value">{{ optional($employee->join_date)->format('Y-m-d') ?? '-' }}</div>
+                                <div class="info-value"><?php echo e(optional($employee->join_date)->format('Y-m-d') ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Status</div>
                                 <div class="info-value">
-                                    @if($employee->status == 'Active')
+                                    <?php if($employee->status == 'Active'): ?>
                                         <span class="status-badge-clean active">Active</span>
-                                    @else
+                                    <?php else: ?>
                                         <span class="status-badge-clean inactive">Inactive</span>
-                                    @endif
+                                    <?php endif; ?>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Personal Information --}}
+                
                 <div class="card section-card mb-4">
                     <div class="card-header">
                         <h6 class="section-heading">Personal Information</h6>
@@ -473,48 +476,48 @@
                         <div class="info-grid">
                             <div class="info-item">
                                 <div class="info-label">Date of Birth</div>
-                                <div class="info-value">{{ optional($employee->dob)->format('Y-m-d') ?? '-' }}</div>
+                                <div class="info-value"><?php echo e(optional($employee->dob)->format('Y-m-d') ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Age</div>
-                                <div class="info-value">{{ $employee->age ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->age ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">District</div>
-                                <div class="info-value">{{ $employee->district ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->district ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">GS Division</div>
-                                <div class="info-value">{{ $employee->gs_division ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->gs_division ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Police Station</div>
-                                <div class="info-value">{{ $employee->police_station ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->police_station ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Nationality</div>
-                                <div class="info-value">{{ $employee->nationality ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->nationality ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Religion</div>
-                                <div class="info-value">{{ $employee->religion ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->religion ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item span-8">
                                 <div class="info-label">Address</div>
-                                <div class="info-value">{{ $employee->address ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->address ?? '-'); ?></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Job Information --}}
+                
                 <div class="card section-card mb-4">
                     <div class="card-header">
                         <h6 class="section-heading">Job Information</h6>
@@ -524,38 +527,38 @@
                         <div class="info-grid">
                             <div class="info-item">
                                 <div class="info-label">Service Number</div>
-                                <div class="info-value">{{ $employee->service_number ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->service_number ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Rank</div>
-                                <div class="info-value">{{ $employee->rank ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->rank ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Site / Location</div>
-                                <div class="info-value">{{ $employee->site_location ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->site_location ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">VO</div>
-                                <div class="info-value">{{ $employee->vo ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->vo ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Department</div>
-                                <div class="info-value">{{ $employee->department ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->department ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Designation</div>
-                                <div class="info-value">{{ $employee->designation ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->designation ?? '-'); ?></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Emergency Contact --}}
+                
                 <div class="card section-card mb-4">
                     <div class="card-header">
                         <h6 class="section-heading">Close Relation / Emergency</h6>
@@ -565,23 +568,23 @@
                         <div class="info-grid">
                             <div class="info-item">
                                 <div class="info-label">Close Relation</div>
-                                <div class="info-value">{{ $employee->close_relation ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->close_relation ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Relationship</div>
-                                <div class="info-value">{{ $employee->relationship ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->relationship ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">CR Contact</div>
-                                <div class="info-value">{{ $employee->cr_contact ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->cr_contact ?? '-'); ?></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Education & Experience --}}
+                
                 <div class="card section-card mb-4">
                     <div class="card-header">
                         <h6 class="section-heading">Education & Experience</h6>
@@ -591,28 +594,28 @@
                         <div class="info-grid">
                             <div class="info-item">
                                 <div class="info-label">Education</div>
-                                <div class="info-value">{{ $employee->education ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->education ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Other Qualification</div>
-                                <div class="info-value">{{ $employee->other_qualification ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->other_qualification ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item span-6">
                                 <div class="info-label">Previous Experience</div>
-                                <div class="info-value">{{ $employee->previous_experience ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->previous_experience ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Period</div>
-                                <div class="info-value">{{ $employee->experience_period ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->experience_period ?? '-'); ?></div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Bank & Salary --}}
+                
                 <div class="card section-card mb-4">
                     <div class="card-header">
                         <h6 class="section-heading">Bank & Salary Information</h6>
@@ -622,30 +625,31 @@
                         <div class="info-grid">
                             <div class="info-item">
                                 <div class="info-label">Bank Name</div>
-                                <div class="info-value">{{ $employee->bank_name ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->bank_name ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Account Number</div>
-                                <div class="info-value">{{ $employee->account_number ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->account_number ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Branch</div>
-                                <div class="info-value">{{ $employee->branch ?? '-' }}</div>
+                                <div class="info-value"><?php echo e($employee->branch ?? '-'); ?></div>
                             </div>
 
                             <div class="info-item">
                                 <div class="info-label">Salary</div>
                                 <div class="info-value">
-                                    {{ $employee->salary !== null ? number_format($employee->salary, 2) : '-' }}
+                                    <?php echo e($employee->salary !== null ? number_format($employee->salary, 2) : '-'); ?>
+
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                {{-- Document Checklist --}}
+                
                 <div class="card section-card mb-4">
                     <div class="card-header">
                         <h6 class="section-heading">Document / Compliance Checklist</h6>
@@ -653,7 +657,7 @@
                     </div>
                     <div class="card-body">
                         <div class="checklist-grid">
-                            @php
+                            <?php
                                 $documents = [
                                     'M/UM' => $employee->doc_m_um,
                                     'Pension' => $employee->doc_pension,
@@ -671,21 +675,22 @@
                                     '12.FP' => $employee->doc_12_fp,
                                     '13.B/A' => $employee->doc_13_ba,
                                 ];
-                            @endphp
+                            ?>
 
-                            @foreach($documents as $docLabel => $docValue)
+                            <?php $__currentLoopData = $documents; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $docLabel => $docValue): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="checklist-item">
-                                    <div class="checklist-name">{{ $docLabel }}</div>
-                                    <div class="check-badge {{ $docValue ? 'yes' : 'no' }}">
-                                        {{ $docValue ? 'Yes' : 'No' }}
+                                    <div class="checklist-name"><?php echo e($docLabel); ?></div>
+                                    <div class="check-badge <?php echo e($docValue ? 'yes' : 'no'); ?>">
+                                        <?php echo e($docValue ? 'Yes' : 'No'); ?>
+
                                     </div>
                                 </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
                     </div>
                 </div>
 
-                {{-- Remarks --}}
+                
                 <div class="card section-card mb-0">
                     <div class="card-header">
                         <h6 class="section-heading">Remarks</h6>
@@ -693,14 +698,15 @@
                     </div>
                     <div class="card-body">
                         <div class="remarks-box">
-                            {{ $employee->remarks ?? '-' }}
+                            <?php echo e($employee->remarks ?? '-'); ?>
+
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        {{-- Dynamic Sections --}}
+        
         <div class="mb-3">
             <h5 class="mb-0">Dynamic Sections</h5>
             <p class="text-muted mb-0 mt-1" style="font-size: 13px;">
@@ -708,30 +714,30 @@
             </p>
         </div>
 
-        @forelse($employee->detailSections as $section)
+        <?php $__empty_1 = true; $__currentLoopData = $employee->detailSections; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $section): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
             <div class="card dynamic-card mb-3">
                 <div class="card-header">
-                    <h6 class="mb-0">{{ $section->section_title }}</h6>
+                    <h6 class="mb-0"><?php echo e($section->section_title); ?></h6>
                 </div>
 
                 <div class="card-body">
-                    @if($section->fields->count())
+                    <?php if($section->fields->count()): ?>
                         <div class="dynamic-list">
-                            @foreach($section->fields as $field)
+                            <?php $__currentLoopData = $section->fields; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $field): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
                                 <div class="dynamic-item">
-                                    <div class="dynamic-label">{{ $field->field_label }}</div>
-                                    <div class="dynamic-value">{{ $field->field_value ?? '-' }}</div>
+                                    <div class="dynamic-label"><?php echo e($field->field_label); ?></div>
+                                    <div class="dynamic-value"><?php echo e($field->field_value ?? '-'); ?></div>
                                 </div>
-                            @endforeach
+                            <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
                         </div>
-                    @else
+                    <?php else: ?>
                         <div class="empty-state-clean">
                             No details added in this section.
                         </div>
-                    @endif
+                    <?php endif; ?>
                 </div>
             </div>
-        @empty
+        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
             <div class="card dynamic-card">
                 <div class="card-body">
                     <div class="empty-state-clean">
@@ -739,6 +745,7 @@
                     </div>
                 </div>
             </div>
-        @endforelse
+        <?php endif; ?>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.vertical', ['subtitle' => 'Employee View'], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH F:\Personal Projects\Infotech\mis\resources\views/backend/pages/employees/show.blade.php ENDPATH**/ ?>

@@ -1,7 +1,7 @@
-@extends('layouts.vertical', ['subtitle' => 'Employee Create'])
 
-@section('content')
-    @include('layouts.partials.page-title', ['title' => 'Employees', 'subtitle' => 'Create'])
+
+<?php $__env->startSection('content'); ?>
+    <?php echo $__env->make('layouts.partials.page-title', ['title' => 'Employees', 'subtitle' => 'Create'], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <style>
         .employee-form-card {
@@ -116,10 +116,10 @@
         <div class="card-body">
             <div id="message"></div>
 
-            <form id="createEmployeeForm" action="{{ route('admin.employees.store') }}" method="POST">
-                @csrf
+            <form id="createEmployeeForm" action="<?php echo e(route('admin.employees.store')); ?>" method="POST">
+                <?php echo csrf_field(); ?>
 
-                {{-- BASIC DETAILS --}}
+                
                 <div class="form-section">
                     <div class="form-section-title">
                         <iconify-icon icon="solar:user-id-outline"></iconify-icon>
@@ -135,13 +135,13 @@
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Record Date</label>
                             <input type="date" name="rec_date" class="form-control"
-                                value="{{ old('rec_date') }}">
+                                value="<?php echo e(old('rec_date')); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Join Date</label>
                             <input type="date" name="join_date" class="form-control"
-                                value="{{ old('join_date') }}">
+                                value="<?php echo e(old('join_date')); ?>">
                         </div>
                     </div>
 
@@ -149,13 +149,13 @@
                         <div class="col-md-8 mb-3">
                             <label class="form-label">Employee Full Name</label>
                             <input type="text" name="full_name" class="form-control"
-                                placeholder="Ex: John Doe" value="{{ old('full_name') }}" required>
+                                placeholder="Ex: John Doe" value="<?php echo e(old('full_name')); ?>" required>
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Name With Initials</label>
                             <input type="text" name="name_with_initials" class="form-control"
-                                placeholder="Ex: J. Doe" value="{{ old('name_with_initials') }}">
+                                placeholder="Ex: J. Doe" value="<?php echo e(old('name_with_initials')); ?>">
                         </div>
                     </div>
 
@@ -163,24 +163,24 @@
                         <div class="col-md-4 mb-3">
                             <label class="form-label">NIC</label>
                             <input type="text" name="nic" class="form-control"
-                                placeholder="Ex: 123456789V" value="{{ old('nic') }}">
+                                placeholder="Ex: 123456789V" value="<?php echo e(old('nic')); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Phone</label>
                             <input type="text" name="phone" class="form-control"
-                                placeholder="Ex: 0771234567" value="{{ old('phone') }}">
+                                placeholder="Ex: 0771234567" value="<?php echo e(old('phone')); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Email</label>
                             <input type="email" name="email" class="form-control"
-                                placeholder="Ex: employee@gmail.com" value="{{ old('email') }}">
+                                placeholder="Ex: employee@gmail.com" value="<?php echo e(old('email')); ?>">
                         </div>
                     </div>
                 </div>
 
-                {{-- PERSONAL INFORMATION --}}
+                
                 <div class="form-section">
                     <div class="form-section-title">
                         <iconify-icon icon="solar:user-circle-outline"></iconify-icon>
@@ -190,25 +190,25 @@
                     <div class="row">
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Date of Birth</label>
-                            <input type="date" name="dob" class="form-control" value="{{ old('dob') }}">
+                            <input type="date" name="dob" class="form-control" value="<?php echo e(old('dob')); ?>">
                         </div>
 
                         <div class="col-md-2 mb-3">
                             <label class="form-label">Age</label>
                             <input type="number" name="age" class="form-control" min="0"
-                                placeholder="Ex: 25" value="{{ old('age') }}">
+                                placeholder="Ex: 25" value="<?php echo e(old('age')); ?>">
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Nationality</label>
                             <input type="text" name="nationality" class="form-control"
-                                placeholder="Ex: Sri Lankan" value="{{ old('nationality') }}">
+                                placeholder="Ex: Sri Lankan" value="<?php echo e(old('nationality')); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Religion</label>
                             <input type="text" name="religion" class="form-control"
-                                placeholder="Ex: Buddhism / Islam" value="{{ old('religion') }}">
+                                placeholder="Ex: Buddhism / Islam" value="<?php echo e(old('religion')); ?>">
                         </div>
                     </div>
 
@@ -216,31 +216,31 @@
                         <div class="col-md-4 mb-3">
                             <label class="form-label">District</label>
                             <input type="text" name="district" class="form-control"
-                                placeholder="Ex: Colombo" value="{{ old('district') }}">
+                                placeholder="Ex: Colombo" value="<?php echo e(old('district')); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">GS Division</label>
                             <input type="text" name="gs_division" class="form-control"
-                                placeholder="Ex: Example GS Division" value="{{ old('gs_division') }}">
+                                placeholder="Ex: Example GS Division" value="<?php echo e(old('gs_division')); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Police Station</label>
                             <input type="text" name="police_station" class="form-control"
-                                placeholder="Ex: Negombo Police Station" value="{{ old('police_station') }}">
+                                placeholder="Ex: Negombo Police Station" value="<?php echo e(old('police_station')); ?>">
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-12 mb-0">
                             <label class="form-label">Address</label>
-                            <textarea name="address" class="form-control" rows="2" placeholder="Enter full address">{{ old('address') }}</textarea>
+                            <textarea name="address" class="form-control" rows="2" placeholder="Enter full address"><?php echo e(old('address')); ?></textarea>
                         </div>
                     </div>
                 </div>
 
-                {{-- JOB INFORMATION --}}
+                
                 <div class="form-section">
                     <div class="form-section-title">
                         <iconify-icon icon="solar:case-outline"></iconify-icon>
@@ -251,25 +251,25 @@
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Service Number</label>
                             <input type="text" name="service_number" class="form-control"
-                                placeholder="Ex: 11066" value="{{ old('service_number') }}">
+                                placeholder="Ex: 11066" value="<?php echo e(old('service_number')); ?>">
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Rank</label>
                             <input type="text" name="rank" class="form-control"
-                                placeholder="Ex: JSO / OIC" value="{{ old('rank') }}">
+                                placeholder="Ex: JSO / OIC" value="<?php echo e(old('rank')); ?>">
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Site / Location</label>
                             <input type="text" name="site_location" class="form-control"
-                                placeholder="Ex: Head Office" value="{{ old('site_location') }}">
+                                placeholder="Ex: Head Office" value="<?php echo e(old('site_location')); ?>">
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label">VO</label>
                             <input type="text" name="vo" class="form-control"
-                                placeholder="Ex: Padmakumara" value="{{ old('vo') }}">
+                                placeholder="Ex: Padmakumara" value="<?php echo e(old('vo')); ?>">
                         </div>
                     </div>
 
@@ -277,26 +277,26 @@
                         <div class="col-md-4 mb-0">
                             <label class="form-label">Department</label>
                             <input type="text" name="department" class="form-control"
-                                placeholder="Ex: HR" value="{{ old('department') }}">
+                                placeholder="Ex: HR" value="<?php echo e(old('department')); ?>">
                         </div>
 
                         <div class="col-md-4 mb-0">
                             <label class="form-label">Designation</label>
                             <input type="text" name="designation" class="form-control"
-                                placeholder="Ex: Executive" value="{{ old('designation') }}">
+                                placeholder="Ex: Executive" value="<?php echo e(old('designation')); ?>">
                         </div>
 
                         <div class="col-md-4 mb-0">
                             <label class="form-label">Status</label>
                             <select name="status" class="form-select" required>
-                                <option value="Active" {{ old('status') == 'Active' ? 'selected' : '' }}>Active</option>
-                                <option value="Inactive" {{ old('status') == 'Inactive' ? 'selected' : '' }}>Inactive</option>
+                                <option value="Active" <?php echo e(old('status') == 'Active' ? 'selected' : ''); ?>>Active</option>
+                                <option value="Inactive" <?php echo e(old('status') == 'Inactive' ? 'selected' : ''); ?>>Inactive</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                {{-- EDUCATION & EXPERIENCE --}}
+                
                 <div class="form-section">
                     <div class="form-section-title">
                         <iconify-icon icon="solar:book-bookmark-outline"></iconify-icon>
@@ -307,30 +307,30 @@
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Education</label>
                             <input type="text" name="education" class="form-control"
-                                placeholder="Ex: GCE O/L" value="{{ old('education') }}">
+                                placeholder="Ex: GCE O/L" value="<?php echo e(old('education')); ?>">
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Other Qualification</label>
                             <input type="text" name="other_qualification" class="form-control"
-                                placeholder="Ex: N.C.T" value="{{ old('other_qualification') }}">
+                                placeholder="Ex: N.C.T" value="<?php echo e(old('other_qualification')); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Previous Experience</label>
                             <input type="text" name="previous_experience" class="form-control"
-                                placeholder="Ex: SL Police" value="{{ old('previous_experience') }}">
+                                placeholder="Ex: SL Police" value="<?php echo e(old('previous_experience')); ?>">
                         </div>
 
                         <div class="col-md-2 mb-3">
                             <label class="form-label">Period</label>
                             <input type="text" name="experience_period" class="form-control"
-                                placeholder="Ex: 3 Years" value="{{ old('experience_period') }}">
+                                placeholder="Ex: 3 Years" value="<?php echo e(old('experience_period')); ?>">
                         </div>
                     </div>
                 </div>
 
-                {{-- CLOSE RELATION --}}
+                
                 <div class="form-section">
                     <div class="form-section-title">
                         <iconify-icon icon="solar:users-group-rounded-outline"></iconify-icon>
@@ -341,24 +341,24 @@
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Close Relation</label>
                             <input type="text" name="close_relation" class="form-control"
-                                placeholder="Ex: W.N. Pradeepa" value="{{ old('close_relation') }}">
+                                placeholder="Ex: W.N. Pradeepa" value="<?php echo e(old('close_relation')); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Relationship</label>
                             <input type="text" name="relationship" class="form-control"
-                                placeholder="Ex: Wife" value="{{ old('relationship') }}">
+                                placeholder="Ex: Wife" value="<?php echo e(old('relationship')); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">CR Contact</label>
                             <input type="text" name="cr_contact" class="form-control"
-                                placeholder="Ex: 0705178696" value="{{ old('cr_contact') }}">
+                                placeholder="Ex: 0705178696" value="<?php echo e(old('cr_contact')); ?>">
                         </div>
                     </div>
                 </div>
 
-                {{-- BANK & SALARY --}}
+                
                 <div class="form-section">
                     <div class="form-section-title">
                         <iconify-icon icon="solar:wallet-money-outline"></iconify-icon>
@@ -369,30 +369,30 @@
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Bank Name</label>
                             <input type="text" name="bank_name" class="form-control"
-                                placeholder="Ex: Bank of Ceylon" value="{{ old('bank_name') }}">
+                                placeholder="Ex: Bank of Ceylon" value="<?php echo e(old('bank_name')); ?>">
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Account Number</label>
                             <input type="text" name="account_number" class="form-control"
-                                placeholder="Ex: 1234567890" value="{{ old('account_number') }}">
+                                placeholder="Ex: 1234567890" value="<?php echo e(old('account_number')); ?>">
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Branch</label>
                             <input type="text" name="branch" class="form-control"
-                                placeholder="Ex: Negombo Branch" value="{{ old('branch') }}">
+                                placeholder="Ex: Negombo Branch" value="<?php echo e(old('branch')); ?>">
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Salary</label>
                             <input type="number" step="0.01" min="0" name="salary" class="form-control"
-                                placeholder="Ex: 45000.00" value="{{ old('salary') }}">
+                                placeholder="Ex: 45000.00" value="<?php echo e(old('salary')); ?>">
                         </div>
                     </div>
                 </div>
 
-                {{-- DOCUMENT CHECKLIST --}}
+                
                 <div class="form-section">
                     <div class="form-section-title">
                         <iconify-icon icon="solar:clipboard-check-outline"></iconify-icon>
@@ -424,7 +424,7 @@
                     </div>
                 </div>
 
-                {{-- REMARKS --}}
+                
                 <div class="form-section">
                     <div class="form-section-title">
                         <iconify-icon icon="solar:notes-outline"></iconify-icon>
@@ -434,12 +434,12 @@
                     <div class="row">
                         <div class="col-md-12 mb-0">
                             <label class="form-label">Remarks</label>
-                            <textarea name="remarks" class="form-control" rows="3" placeholder="Enter remarks if needed">{{ old('remarks') }}</textarea>
+                            <textarea name="remarks" class="form-control" rows="3" placeholder="Enter remarks if needed"><?php echo e(old('remarks')); ?></textarea>
                         </div>
                     </div>
                 </div>
 
-                {{-- DYNAMIC CUSTOM SECTIONS --}}
+                
                 <div class="form-section">
                     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
                         <div>
@@ -464,7 +464,7 @@
                 </div>
 
                 <div class="sticky-submit-bar">
-                    <a href="{{ route('admin.employees.index') }}" class="btn btn-light">Cancel</a>
+                    <a href="<?php echo e(route('admin.employees.index')); ?>" class="btn btn-light">Cancel</a>
                     <button type="submit" class="btn btn-primary">Create Employee</button>
                 </div>
             </form>
@@ -593,4 +593,5 @@
                 });
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.vertical', ['subtitle' => 'Employee Create'], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH F:\Personal Projects\Infotech\mis\resources\views/backend/pages/employees/create.blade.php ENDPATH**/ ?>

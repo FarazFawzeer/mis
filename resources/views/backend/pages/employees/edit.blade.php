@@ -3,7 +3,105 @@
 @section('content')
     @include('layouts.partials.page-title', ['title' => 'Employees', 'subtitle' => 'Edit'])
 
-    <div class="card">
+    <style>
+        .employee-form-card {
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .employee-form-card .card-header {
+            background: #fff;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 18px 22px;
+        }
+
+        .employee-form-card .card-body {
+            padding: 24px;
+        }
+
+        .form-section {
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 14px;
+            padding: 18px;
+            margin-bottom: 20px;
+            background: #fff;
+        }
+
+        .form-section-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #212529;
+            margin-bottom: 16px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .section-subtitle {
+            font-size: 12px;
+            color: #6c757d;
+            margin-top: -8px;
+            margin-bottom: 16px;
+        }
+
+        .dynamic-section-card {
+            border: 1px solid rgba(0, 0, 0, 0.08);
+            border-radius: 14px;
+            overflow: hidden;
+        }
+
+        .dynamic-section-card .card-header {
+            background: #fff;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+            padding: 16px 18px;
+        }
+
+        .dynamic-section-card .card-body {
+            padding: 18px;
+        }
+
+        .field-row {
+            background: #fafafa;
+        }
+
+        .checklist-box {
+            border: 1px solid rgba(0, 0, 0, 0.06);
+            border-radius: 12px;
+            padding: 14px 14px 6px;
+            background: #fafafa;
+        }
+
+        .checklist-title {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #212529;
+        }
+
+        .form-check {
+            margin-bottom: 10px;
+        }
+
+        .sticky-submit-bar {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .employee-form-card .card-body {
+                padding: 16px;
+            }
+
+            .form-section {
+                padding: 14px;
+            }
+        }
+    </style>
+
+    <div class="card employee-form-card">
         <div class="card-header">
             <h5 class="card-title mb-0">Edit Employee</h5>
         </div>
@@ -15,80 +113,350 @@
                 @csrf
                 @method('PUT')
 
-                <h5 class="mb-3">Main Employee Details</h5>
+                {{-- BASIC DETAILS --}}
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <iconify-icon icon="solar:user-id-outline"></iconify-icon>
+                        Basic Employee Details
+                    </div>
 
-                <div class="row">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Employee Number</label>
+                            <input type="text" class="form-control" value="{{ $employee->employee_no }}" readonly>
+                        </div>
 
-                    <div class="col-md-6 mb-3">
-                        <label class="form-label">Full Name</label>
-                        <input type="text" name="full_name" class="form-control" value="{{ $employee->full_name }}"
-                            required>
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Record Date</label>
+                            <input type="date" name="rec_date" class="form-control"
+                                value="{{ optional($employee->rec_date)->format('Y-m-d') }}">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Join Date</label>
+                            <input type="date" name="join_date" class="form-control"
+                                value="{{ optional($employee->join_date)->format('Y-m-d') }}">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-8 mb-3">
+                            <label class="form-label">Employee Full Name</label>
+                            <input type="text" name="full_name" class="form-control"
+                                value="{{ $employee->full_name }}" required>
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Name With Initials</label>
+                            <input type="text" name="name_with_initials" class="form-control"
+                                value="{{ $employee->name_with_initials }}">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">NIC</label>
+                            <input type="text" name="nic" class="form-control" value="{{ $employee->nic }}">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Phone</label>
+                            <input type="text" name="phone" class="form-control" value="{{ $employee->phone }}">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Email</label>
+                            <input type="email" name="email" class="form-control" value="{{ $employee->email }}">
+                        </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">NIC</label>
-                        <input type="text" name="nic" class="form-control" value="{{ $employee->nic }}">
+                {{-- PERSONAL INFORMATION --}}
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <iconify-icon icon="solar:user-circle-outline"></iconify-icon>
+                        Personal Information
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Phone</label>
-                        <input type="text" name="phone" class="form-control" value="{{ $employee->phone }}">
+
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Date of Birth</label>
+                            <input type="date" name="dob" class="form-control"
+                                value="{{ optional($employee->dob)->format('Y-m-d') }}">
+                        </div>
+
+                        <div class="col-md-2 mb-3">
+                            <label class="form-label">Age</label>
+                            <input type="number" name="age" class="form-control" min="0"
+                                value="{{ $employee->age }}">
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Nationality</label>
+                            <input type="text" name="nationality" class="form-control"
+                                value="{{ $employee->nationality }}">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Religion</label>
+                            <input type="text" name="religion" class="form-control"
+                                value="{{ $employee->religion }}">
+                        </div>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Email</label>
-                        <input type="email" name="email" class="form-control" value="{{ $employee->email }}">
+
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">District</label>
+                            <input type="text" name="district" class="form-control"
+                                value="{{ $employee->district }}">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">GS Division</label>
+                            <input type="text" name="gs_division" class="form-control"
+                                value="{{ $employee->gs_division }}">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Police Station</label>
+                            <input type="text" name="police_station" class="form-control"
+                                value="{{ $employee->police_station }}">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 mb-0">
+                            <label class="form-label">Address</label>
+                            <textarea name="address" class="form-control" rows="2">{{ $employee->address }}</textarea>
+                        </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Department</label>
-                        <input type="text" name="department" class="form-control" value="{{ $employee->department }}">
+                {{-- JOB INFORMATION --}}
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <iconify-icon icon="solar:case-outline"></iconify-icon>
+                        Job Information
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Designation</label>
-                        <input type="text" name="designation" class="form-control" value="{{ $employee->designation }}">
+
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Service Number</label>
+                            <input type="text" name="service_number" class="form-control"
+                                value="{{ $employee->service_number }}">
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Rank</label>
+                            <input type="text" name="rank" class="form-control"
+                                value="{{ $employee->rank }}">
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Site / Location</label>
+                            <input type="text" name="site_location" class="form-control"
+                                value="{{ $employee->site_location }}">
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">VO</label>
+                            <input type="text" name="vo" class="form-control"
+                                value="{{ $employee->vo }}">
+                        </div>
                     </div>
-                    <div class="col-md-4 mb-3">
-                        <label class="form-label">Status</label>
-                        <select name="status" class="form-select" required>
-                            <option value="">Select Status</option>
-                            <option value="Active" {{ $employee->status == 'Active' ? 'selected' : '' }}>Active</option>
-                            <option value="Inactive" {{ $employee->status == 'Inactive' ? 'selected' : '' }}>Inactive
-                            </option>
-                        </select>
+
+                    <div class="row">
+                        <div class="col-md-4 mb-0">
+                            <label class="form-label">Department</label>
+                            <input type="text" name="department" class="form-control"
+                                value="{{ $employee->department }}">
+                        </div>
+
+                        <div class="col-md-4 mb-0">
+                            <label class="form-label">Designation</label>
+                            <input type="text" name="designation" class="form-control"
+                                value="{{ $employee->designation }}">
+                        </div>
+
+                        <div class="col-md-4 mb-0">
+                            <label class="form-label">Status</label>
+                            <select name="status" class="form-select" required>
+                                <option value="Active" {{ $employee->status == 'Active' ? 'selected' : '' }}>Active</option>
+                                <option value="Inactive" {{ $employee->status == 'Inactive' ? 'selected' : '' }}>Inactive</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
 
-                <div class="row">
-                    <div class="col-md-12 mb-3">
-                        <label class="form-label">Remarks</label>
-                        <textarea name="remarks" class="form-control" rows="3">{{ $employee->remarks }}</textarea>
+                {{-- EDUCATION & EXPERIENCE --}}
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <iconify-icon icon="solar:book-bookmark-outline"></iconify-icon>
+                        Education & Experience
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Education</label>
+                            <input type="text" name="education" class="form-control"
+                                value="{{ $employee->education }}">
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Other Qualification</label>
+                            <input type="text" name="other_qualification" class="form-control"
+                                value="{{ $employee->other_qualification }}">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Previous Experience</label>
+                            <input type="text" name="previous_experience" class="form-control"
+                                value="{{ $employee->previous_experience }}">
+                        </div>
+
+                        <div class="col-md-2 mb-3">
+                            <label class="form-label">Period</label>
+                            <input type="text" name="experience_period" class="form-control"
+                                value="{{ $employee->experience_period }}">
+                        </div>
                     </div>
                 </div>
 
-                <hr class="my-4">
+                {{-- CLOSE RELATION --}}
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <iconify-icon icon="solar:users-group-rounded-outline"></iconify-icon>
+                        Close Relation / Emergency
+                    </div>
 
-                <div class="d-flex justify-content-between align-items-center mb-3">
-                    <h5 class="mb-0">Dynamic Employee Details</h5>
-                    <div class="d-flex gap-2 flex-wrap">
-                        <button type="button" class="btn btn-outline-primary btn-sm"
-                            onclick="addSection('Father Details')">+ Father Details</button>
-                        <button type="button" class="btn btn-outline-primary btn-sm"
-                            onclick="addSection('Mother Details')">+ Mother Details</button>
-                        <button type="button" class="btn btn-outline-primary btn-sm" onclick="addSection('Wife Details')">+
-                            Wife Details</button>
-                        <button type="button" class="btn btn-outline-primary btn-sm"
-                            onclick="addSection('Child Details')">+ Child Details</button>
-                        <button type="button" class="btn btn-primary btn-sm" onclick="addSection()">+ Custom
-                            Section</button>
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Close Relation</label>
+                            <input type="text" name="close_relation" class="form-control"
+                                value="{{ $employee->close_relation }}">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">Relationship</label>
+                            <input type="text" name="relationship" class="form-control"
+                                value="{{ $employee->relationship }}">
+                        </div>
+
+                        <div class="col-md-4 mb-3">
+                            <label class="form-label">CR Contact</label>
+                            <input type="text" name="cr_contact" class="form-control"
+                                value="{{ $employee->cr_contact }}">
+                        </div>
                     </div>
                 </div>
 
-                <div id="dynamicSectionsWrapper"></div>
+                {{-- BANK & SALARY --}}
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <iconify-icon icon="solar:wallet-money-outline"></iconify-icon>
+                        Bank & Salary Information
+                    </div>
 
-                <div class="d-flex justify-content-end mt-4">
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Bank Name</label>
+                            <input type="text" name="bank_name" class="form-control"
+                                value="{{ $employee->bank_name }}">
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Account Number</label>
+                            <input type="text" name="account_number" class="form-control"
+                                value="{{ $employee->account_number }}">
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Branch</label>
+                            <input type="text" name="branch" class="form-control"
+                                value="{{ $employee->branch }}">
+                        </div>
+
+                        <div class="col-md-3 mb-3">
+                            <label class="form-label">Salary</label>
+                            <input type="number" step="0.01" min="0" name="salary" class="form-control"
+                                value="{{ $employee->salary }}">
+                        </div>
+                    </div>
+                </div>
+
+                {{-- DOCUMENT CHECKLIST --}}
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <iconify-icon icon="solar:clipboard-check-outline"></iconify-icon>
+                        Document / Compliance Checklist
+                    </div>
+
+                    <div class="checklist-box">
+                        <div class="checklist-title">Mark available employee documents</div>
+
+                        <div class="row">
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_m_um" value="1" {{ $employee->doc_m_um ? 'checked' : '' }}><label class="form-check-label">M/UM</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_pension" value="1" {{ $employee->doc_pension ? 'checked' : '' }}><label class="form-check-label">Pention</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_i_al" value="1" {{ $employee->doc_i_al ? 'checked' : '' }}><label class="form-check-label">I.AL</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_2_ca" value="1" {{ $employee->doc_2_ca ? 'checked' : '' }}><label class="form-check-label">2.CA</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_3_wcl" value="1" {{ $employee->doc_3_wcl ? 'checked' : '' }}><label class="form-check-label">3.WCL</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_4_nic_c" value="1" {{ $employee->doc_4_nic_c ? 'checked' : '' }}><label class="form-check-label">4.NIC C</label></div></div>
+
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_5_bc" value="1" {{ $employee->doc_5_bc ? 'checked' : '' }}><label class="form-check-label">5.BC</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_6_gnc" value="1" {{ $employee->doc_6_gnc ? 'checked' : '' }}><label class="form-check-label">6.GNC</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_7_pr" value="1" {{ $employee->doc_7_pr ? 'checked' : '' }}><label class="form-check-label">7.PR</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_8_ec" value="1" {{ $employee->doc_8_ec ? 'checked' : '' }}><label class="form-check-label">8.EC</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_9_qc" value="1" {{ $employee->doc_9_qc ? 'checked' : '' }}><label class="form-check-label">9.QC</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_10_chc" value="1" {{ $employee->doc_10_chc ? 'checked' : '' }}><label class="form-check-label">10.CHC</label></div></div>
+
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_11_po" value="1" {{ $employee->doc_11_po ? 'checked' : '' }}><label class="form-check-label">11.PO</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_12_fp" value="1" {{ $employee->doc_12_fp ? 'checked' : '' }}><label class="form-check-label">12.FP</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_13_ba" value="1" {{ $employee->doc_13_ba ? 'checked' : '' }}><label class="form-check-label">13.B/A</label></div></div>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- REMARKS --}}
+                <div class="form-section">
+                    <div class="form-section-title">
+                        <iconify-icon icon="solar:notes-outline"></iconify-icon>
+                        Remarks
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-12 mb-0">
+                            <label class="form-label">Remarks</label>
+                            <textarea name="remarks" class="form-control" rows="3">{{ $employee->remarks }}</textarea>
+                        </div>
+                    </div>
+                </div>
+
+                {{-- DYNAMIC SECTIONS --}}
+                <div class="form-section">
+                    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
+                        <div>
+                            <div class="form-section-title mb-1">
+                                <iconify-icon icon="solar:widget-add-outline"></iconify-icon>
+                                Custom / Additional Employee Details
+                            </div>
+                            <div class="section-subtitle">Use this area for employee-specific extra information.</div>
+                        </div>
+
+                        <div class="d-flex gap-2 flex-wrap">
+                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="addSection('Father Details')">+ Father Details</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="addSection('Mother Details')">+ Mother Details</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="addSection('Wife Details')">+ Wife Details</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="addSection('Child Details')">+ Child Details</button>
+                            <button type="button" class="btn btn-outline-primary btn-sm" onclick="addSection('Emergency Contact')">+ Emergency Contact</button>
+                            <button type="button" class="btn btn-primary btn-sm" onclick="addSection()">+ Custom Section</button>
+                        </div>
+                    </div>
+
+                    <div id="dynamicSectionsWrapper"></div>
+                </div>
+
+                <div class="sticky-submit-bar">
+                    <a href="{{ route('admin.employees.index') }}" class="btn btn-light">Cancel</a>
                     <button type="submit" class="btn btn-primary">Update Employee</button>
                 </div>
             </form>
@@ -114,7 +482,7 @@
 
             const html = `
                 <div class="card mb-3 dynamic-section-card" data-section-index="${currentIndex}">
-                    <div class="card-header d-flex justify-content-between align-items-center">
+                    <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
                         <div class="w-75">
                             <label class="form-label mb-1">Section Title</label>
                             <input type="text" name="dynamic_sections[${currentIndex}][section_title]" class="form-control" value="${defaultTitle}" placeholder="Ex: Father Details">
@@ -243,8 +611,7 @@
                             window.location.href = result.body.redirect;
                         }, 1200);
                     } else {
-                        let errors = result.body.errors ? Object.values(result.body.errors).flat().join(
-                            '<br>') : 'Something went wrong.';
+                        let errors = result.body.errors ? Object.values(result.body.errors).flat().join('<br>') : 'Something went wrong.';
                         messageBox.innerHTML = `<div class="alert alert-danger">${errors}</div>`;
                     }
                 })

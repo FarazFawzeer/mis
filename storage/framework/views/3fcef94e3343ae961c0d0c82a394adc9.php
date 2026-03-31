@@ -1,7 +1,7 @@
-@extends('layouts.vertical', ['subtitle' => 'Employees View'])
 
-@section('content')
-    @include('layouts.partials.page-title', ['title' => 'Employees', 'subtitle' => 'View'])
+
+<?php $__env->startSection('content'); ?>
+    <?php echo $__env->make('layouts.partials.page-title', ['title' => 'Employees', 'subtitle' => 'View'], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <style>
         .action-icons {
@@ -126,35 +126,36 @@
         }
     </style>
 
-    @if (session('success'))
+    <?php if(session('success')): ?>
         <div class="alert alert-success alert-dismissible fade show" role="alert">
-            {{ session('success') }}
+            <?php echo e(session('success')); ?>
+
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
-    @endif
+    <?php endif; ?>
 
     <div class="card employee-search-card mb-3">
         <div class="card-header">
             <h5 class="card-title mb-0">Search Employees</h5>
         </div>
         <div class="card-body">
-            <form method="GET" action="{{ route('admin.employees.index') }}">
+            <form method="GET" action="<?php echo e(route('admin.employees.index')); ?>">
                 <div class="row">
                     <div class="col-md-3 mb-3">
                         <label class="form-label">Search</label>
-                        <input type="text" name="search" class="form-control" value="{{ request('search') }}"
+                        <input type="text" name="search" class="form-control" value="<?php echo e(request('search')); ?>"
                             placeholder="Employee No / Name / NIC / Phone / Service No">
                     </div>
 
                     <div class="col-md-3 mb-3">
                         <label class="form-label">Department</label>
-                        <input type="text" name="department" class="form-control" value="{{ request('department') }}"
+                        <input type="text" name="department" class="form-control" value="<?php echo e(request('department')); ?>"
                             placeholder="Department">
                     </div>
 
                     <div class="col-md-3 mb-3">
                         <label class="form-label">District</label>
-                        <input type="text" name="district" class="form-control" value="{{ request('district') }}"
+                        <input type="text" name="district" class="form-control" value="<?php echo e(request('district')); ?>"
                             placeholder="District">
                     </div>
 
@@ -162,14 +163,14 @@
                         <label class="form-label">Status</label>
                         <select name="status" class="form-select">
                             <option value="">All</option>
-                            <option value="Active" {{ request('status') == 'Active' ? 'selected' : '' }}>Active</option>
-                            <option value="Inactive" {{ request('status') == 'Inactive' ? 'selected' : '' }}>Inactive</option>
+                            <option value="Active" <?php echo e(request('status') == 'Active' ? 'selected' : ''); ?>>Active</option>
+                            <option value="Inactive" <?php echo e(request('status') == 'Inactive' ? 'selected' : ''); ?>>Inactive</option>
                         </select>
                     </div>
                 </div>
 
                 <div class="search-actions">
-                    <a href="{{ route('admin.employees.index') }}" class="btn btn-light">Reset</a>
+                    <a href="<?php echo e(route('admin.employees.index')); ?>" class="btn btn-light">Reset</a>
                     <button type="submit" class="btn btn-primary">Search</button>
                 </div>
             </form>
@@ -179,7 +180,7 @@
     <div class="card employee-table-card">
         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
             <h5 class="card-title mb-0">Employee List</h5>
-            <a href="{{ route('admin.employees.create') }}" class="btn btn-primary btn-sm">
+            <a href="<?php echo e(route('admin.employees.create')); ?>" class="btn btn-primary btn-sm">
                 Create Employee
             </a>
         </div>
@@ -202,52 +203,52 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse($employees as $key => $employee)
+                        <?php $__empty_1 = true; $__currentLoopData = $employees; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $key => $employee): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); $__empty_1 = false; ?>
                             <tr>
-                                <td>{{ $employees->firstItem() + $key }}</td>
+                                <td><?php echo e($employees->firstItem() + $key); ?></td>
 
                                 <td>
-                                    <span class="fw-semibold">{{ $employee->employee_no }}</span>
+                                    <span class="fw-semibold"><?php echo e($employee->employee_no); ?></span>
                                 </td>
 
                                 <td>
-                                    <div class="employee-name">{{ $employee->full_name }}</div>
-                                    @if($employee->name_with_initials)
-                                        <div class="employee-sub">{{ $employee->name_with_initials }}</div>
-                                    @elseif($employee->designation)
-                                        <div class="employee-sub">{{ $employee->designation }}</div>
-                                    @endif
+                                    <div class="employee-name"><?php echo e($employee->full_name); ?></div>
+                                    <?php if($employee->name_with_initials): ?>
+                                        <div class="employee-sub"><?php echo e($employee->name_with_initials); ?></div>
+                                    <?php elseif($employee->designation): ?>
+                                        <div class="employee-sub"><?php echo e($employee->designation); ?></div>
+                                    <?php endif; ?>
                                 </td>
 
-                                <td>{{ $employee->service_number ?? '-' }}</td>
-                                <td>{{ $employee->rank ?? '-' }}</td>
-                                <td>{{ $employee->phone ?? '-' }}</td>
-                                <td>{{ $employee->district ?? '-' }}</td>
-                                <td>{{ $employee->vo ?? '-' }}</td>
+                                <td><?php echo e($employee->service_number ?? '-'); ?></td>
+                                <td><?php echo e($employee->rank ?? '-'); ?></td>
+                                <td><?php echo e($employee->phone ?? '-'); ?></td>
+                                <td><?php echo e($employee->district ?? '-'); ?></td>
+                                <td><?php echo e($employee->vo ?? '-'); ?></td>
 
                                 <td class="text-center">
-                                    @if($employee->status == 'Active')
+                                    <?php if($employee->status == 'Active'): ?>
                                         <span class="status-badge active">Active</span>
-                                    @else
+                                    <?php else: ?>
                                         <span class="status-badge inactive">Inactive</span>
-                                    @endif
+                                    <?php endif; ?>
                                 </td>
 
                                 <td class="text-center">
                                     <div class="action-icons">
-                                        <a href="{{ route('admin.employees.show', $employee->id) }}" title="View">
+                                        <a href="<?php echo e(route('admin.employees.show', $employee->id)); ?>" title="View">
                                             <iconify-icon icon="solar:eye-outline"></iconify-icon>
                                         </a>
 
-                                        <a href="{{ route('admin.employees.edit', $employee->id) }}" title="Edit">
+                                        <a href="<?php echo e(route('admin.employees.edit', $employee->id)); ?>" title="Edit">
                                             <iconify-icon icon="solar:pen-2-outline"></iconify-icon>
                                         </a>
 
-                                        <form action="{{ route('admin.employees.destroy', $employee->id) }}"
+                                        <form action="<?php echo e(route('admin.employees.destroy', $employee->id)); ?>"
                                             method="POST"
                                             onsubmit="return confirm('Are you sure you want to delete this employee?')">
-                                            @csrf
-                                            @method('DELETE')
+                                            <?php echo csrf_field(); ?>
+                                            <?php echo method_field('DELETE'); ?>
 
                                             <button type="submit" class="delete-btn" title="Delete">
                                                 <iconify-icon icon="solar:trash-bin-minimalistic-outline"></iconify-icon>
@@ -256,7 +257,7 @@
                                     </div>
                                 </td>
                             </tr>
-                        @empty
+                        <?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); if ($__empty_1): ?>
                             <tr>
                                 <td colspan="10">
                                     <div class="table-empty-state">
@@ -264,16 +265,18 @@
                                     </div>
                                 </td>
                             </tr>
-                        @endforelse
+                        <?php endif; ?>
                     </tbody>
                 </table>
             </div>
 
-            @if ($employees->hasPages())
+            <?php if($employees->hasPages()): ?>
                 <div class="mt-3 d-flex justify-content-end">
-                    {{ $employees->links() }}
+                    <?php echo e($employees->links()); ?>
+
                 </div>
-            @endif
+            <?php endif; ?>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.vertical', ['subtitle' => 'Employees View'], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH F:\Personal Projects\Infotech\mis\resources\views/backend/pages/employees/index.blade.php ENDPATH**/ ?>

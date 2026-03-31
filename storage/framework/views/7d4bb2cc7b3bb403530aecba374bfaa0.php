@@ -1,7 +1,7 @@
-@extends('layouts.vertical', ['subtitle' => 'Employee Create'])
 
-@section('content')
-    @include('layouts.partials.page-title', ['title' => 'Employees', 'subtitle' => 'Create'])
+
+<?php $__env->startSection('content'); ?>
+    <?php echo $__env->make('layouts.partials.page-title', ['title' => 'Employees', 'subtitle' => 'Edit'], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?>
 
     <style>
         .employee-form-card {
@@ -43,13 +43,6 @@
             color: #6c757d;
             margin-top: -8px;
             margin-bottom: 16px;
-        }
-
-        .soft-box {
-            border: 1px dashed rgba(0, 0, 0, 0.12);
-            border-radius: 12px;
-            padding: 14px;
-            background: rgba(248, 249, 250, 0.7);
         }
 
         .dynamic-section-card {
@@ -110,16 +103,17 @@
 
     <div class="card employee-form-card">
         <div class="card-header">
-            <h5 class="card-title mb-0">New Employee</h5>
+            <h5 class="card-title mb-0">Edit Employee</h5>
         </div>
 
         <div class="card-body">
             <div id="message"></div>
 
-            <form id="createEmployeeForm" action="{{ route('admin.employees.store') }}" method="POST">
-                @csrf
+            <form id="editEmployeeForm" action="<?php echo e(route('admin.employees.update', $employee->id)); ?>" method="POST">
+                <?php echo csrf_field(); ?>
+                <?php echo method_field('PUT'); ?>
 
-                {{-- BASIC DETAILS --}}
+                
                 <div class="form-section">
                     <div class="form-section-title">
                         <iconify-icon icon="solar:user-id-outline"></iconify-icon>
@@ -129,19 +123,19 @@
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Employee Number</label>
-                            <input type="text" class="form-control" value="Auto Generated" readonly>
+                            <input type="text" class="form-control" value="<?php echo e($employee->employee_no); ?>" readonly>
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Record Date</label>
                             <input type="date" name="rec_date" class="form-control"
-                                value="{{ old('rec_date') }}">
+                                value="<?php echo e(optional($employee->rec_date)->format('Y-m-d')); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Join Date</label>
                             <input type="date" name="join_date" class="form-control"
-                                value="{{ old('join_date') }}">
+                                value="<?php echo e(optional($employee->join_date)->format('Y-m-d')); ?>">
                         </div>
                     </div>
 
@@ -149,38 +143,35 @@
                         <div class="col-md-8 mb-3">
                             <label class="form-label">Employee Full Name</label>
                             <input type="text" name="full_name" class="form-control"
-                                placeholder="Ex: John Doe" value="{{ old('full_name') }}" required>
+                                value="<?php echo e($employee->full_name); ?>" required>
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Name With Initials</label>
                             <input type="text" name="name_with_initials" class="form-control"
-                                placeholder="Ex: J. Doe" value="{{ old('name_with_initials') }}">
+                                value="<?php echo e($employee->name_with_initials); ?>">
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-4 mb-3">
                             <label class="form-label">NIC</label>
-                            <input type="text" name="nic" class="form-control"
-                                placeholder="Ex: 123456789V" value="{{ old('nic') }}">
+                            <input type="text" name="nic" class="form-control" value="<?php echo e($employee->nic); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Phone</label>
-                            <input type="text" name="phone" class="form-control"
-                                placeholder="Ex: 0771234567" value="{{ old('phone') }}">
+                            <input type="text" name="phone" class="form-control" value="<?php echo e($employee->phone); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Email</label>
-                            <input type="email" name="email" class="form-control"
-                                placeholder="Ex: employee@gmail.com" value="{{ old('email') }}">
+                            <input type="email" name="email" class="form-control" value="<?php echo e($employee->email); ?>">
                         </div>
                     </div>
                 </div>
 
-                {{-- PERSONAL INFORMATION --}}
+                
                 <div class="form-section">
                     <div class="form-section-title">
                         <iconify-icon icon="solar:user-circle-outline"></iconify-icon>
@@ -190,25 +181,26 @@
                     <div class="row">
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Date of Birth</label>
-                            <input type="date" name="dob" class="form-control" value="{{ old('dob') }}">
+                            <input type="date" name="dob" class="form-control"
+                                value="<?php echo e(optional($employee->dob)->format('Y-m-d')); ?>">
                         </div>
 
                         <div class="col-md-2 mb-3">
                             <label class="form-label">Age</label>
                             <input type="number" name="age" class="form-control" min="0"
-                                placeholder="Ex: 25" value="{{ old('age') }}">
+                                value="<?php echo e($employee->age); ?>">
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Nationality</label>
                             <input type="text" name="nationality" class="form-control"
-                                placeholder="Ex: Sri Lankan" value="{{ old('nationality') }}">
+                                value="<?php echo e($employee->nationality); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Religion</label>
                             <input type="text" name="religion" class="form-control"
-                                placeholder="Ex: Buddhism / Islam" value="{{ old('religion') }}">
+                                value="<?php echo e($employee->religion); ?>">
                         </div>
                     </div>
 
@@ -216,31 +208,31 @@
                         <div class="col-md-4 mb-3">
                             <label class="form-label">District</label>
                             <input type="text" name="district" class="form-control"
-                                placeholder="Ex: Colombo" value="{{ old('district') }}">
+                                value="<?php echo e($employee->district); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">GS Division</label>
                             <input type="text" name="gs_division" class="form-control"
-                                placeholder="Ex: Example GS Division" value="{{ old('gs_division') }}">
+                                value="<?php echo e($employee->gs_division); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Police Station</label>
                             <input type="text" name="police_station" class="form-control"
-                                placeholder="Ex: Negombo Police Station" value="{{ old('police_station') }}">
+                                value="<?php echo e($employee->police_station); ?>">
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-12 mb-0">
                             <label class="form-label">Address</label>
-                            <textarea name="address" class="form-control" rows="2" placeholder="Enter full address">{{ old('address') }}</textarea>
+                            <textarea name="address" class="form-control" rows="2"><?php echo e($employee->address); ?></textarea>
                         </div>
                     </div>
                 </div>
 
-                {{-- JOB INFORMATION --}}
+                
                 <div class="form-section">
                     <div class="form-section-title">
                         <iconify-icon icon="solar:case-outline"></iconify-icon>
@@ -251,25 +243,25 @@
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Service Number</label>
                             <input type="text" name="service_number" class="form-control"
-                                placeholder="Ex: 11066" value="{{ old('service_number') }}">
+                                value="<?php echo e($employee->service_number); ?>">
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Rank</label>
                             <input type="text" name="rank" class="form-control"
-                                placeholder="Ex: JSO / OIC" value="{{ old('rank') }}">
+                                value="<?php echo e($employee->rank); ?>">
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Site / Location</label>
                             <input type="text" name="site_location" class="form-control"
-                                placeholder="Ex: Head Office" value="{{ old('site_location') }}">
+                                value="<?php echo e($employee->site_location); ?>">
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label">VO</label>
                             <input type="text" name="vo" class="form-control"
-                                placeholder="Ex: Padmakumara" value="{{ old('vo') }}">
+                                value="<?php echo e($employee->vo); ?>">
                         </div>
                     </div>
 
@@ -277,26 +269,26 @@
                         <div class="col-md-4 mb-0">
                             <label class="form-label">Department</label>
                             <input type="text" name="department" class="form-control"
-                                placeholder="Ex: HR" value="{{ old('department') }}">
+                                value="<?php echo e($employee->department); ?>">
                         </div>
 
                         <div class="col-md-4 mb-0">
                             <label class="form-label">Designation</label>
                             <input type="text" name="designation" class="form-control"
-                                placeholder="Ex: Executive" value="{{ old('designation') }}">
+                                value="<?php echo e($employee->designation); ?>">
                         </div>
 
                         <div class="col-md-4 mb-0">
                             <label class="form-label">Status</label>
                             <select name="status" class="form-select" required>
-                                <option value="Active" {{ old('status') == 'Active' ? 'selected' : '' }}>Active</option>
-                                <option value="Inactive" {{ old('status') == 'Inactive' ? 'selected' : '' }}>Inactive</option>
+                                <option value="Active" <?php echo e($employee->status == 'Active' ? 'selected' : ''); ?>>Active</option>
+                                <option value="Inactive" <?php echo e($employee->status == 'Inactive' ? 'selected' : ''); ?>>Inactive</option>
                             </select>
                         </div>
                     </div>
                 </div>
 
-                {{-- EDUCATION & EXPERIENCE --}}
+                
                 <div class="form-section">
                     <div class="form-section-title">
                         <iconify-icon icon="solar:book-bookmark-outline"></iconify-icon>
@@ -307,30 +299,30 @@
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Education</label>
                             <input type="text" name="education" class="form-control"
-                                placeholder="Ex: GCE O/L" value="{{ old('education') }}">
+                                value="<?php echo e($employee->education); ?>">
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Other Qualification</label>
                             <input type="text" name="other_qualification" class="form-control"
-                                placeholder="Ex: N.C.T" value="{{ old('other_qualification') }}">
+                                value="<?php echo e($employee->other_qualification); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Previous Experience</label>
                             <input type="text" name="previous_experience" class="form-control"
-                                placeholder="Ex: SL Police" value="{{ old('previous_experience') }}">
+                                value="<?php echo e($employee->previous_experience); ?>">
                         </div>
 
                         <div class="col-md-2 mb-3">
                             <label class="form-label">Period</label>
                             <input type="text" name="experience_period" class="form-control"
-                                placeholder="Ex: 3 Years" value="{{ old('experience_period') }}">
+                                value="<?php echo e($employee->experience_period); ?>">
                         </div>
                     </div>
                 </div>
 
-                {{-- CLOSE RELATION --}}
+                
                 <div class="form-section">
                     <div class="form-section-title">
                         <iconify-icon icon="solar:users-group-rounded-outline"></iconify-icon>
@@ -341,24 +333,24 @@
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Close Relation</label>
                             <input type="text" name="close_relation" class="form-control"
-                                placeholder="Ex: W.N. Pradeepa" value="{{ old('close_relation') }}">
+                                value="<?php echo e($employee->close_relation); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">Relationship</label>
                             <input type="text" name="relationship" class="form-control"
-                                placeholder="Ex: Wife" value="{{ old('relationship') }}">
+                                value="<?php echo e($employee->relationship); ?>">
                         </div>
 
                         <div class="col-md-4 mb-3">
                             <label class="form-label">CR Contact</label>
                             <input type="text" name="cr_contact" class="form-control"
-                                placeholder="Ex: 0705178696" value="{{ old('cr_contact') }}">
+                                value="<?php echo e($employee->cr_contact); ?>">
                         </div>
                     </div>
                 </div>
 
-                {{-- BANK & SALARY --}}
+                
                 <div class="form-section">
                     <div class="form-section-title">
                         <iconify-icon icon="solar:wallet-money-outline"></iconify-icon>
@@ -369,30 +361,30 @@
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Bank Name</label>
                             <input type="text" name="bank_name" class="form-control"
-                                placeholder="Ex: Bank of Ceylon" value="{{ old('bank_name') }}">
+                                value="<?php echo e($employee->bank_name); ?>">
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Account Number</label>
                             <input type="text" name="account_number" class="form-control"
-                                placeholder="Ex: 1234567890" value="{{ old('account_number') }}">
+                                value="<?php echo e($employee->account_number); ?>">
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Branch</label>
                             <input type="text" name="branch" class="form-control"
-                                placeholder="Ex: Negombo Branch" value="{{ old('branch') }}">
+                                value="<?php echo e($employee->branch); ?>">
                         </div>
 
                         <div class="col-md-3 mb-3">
                             <label class="form-label">Salary</label>
                             <input type="number" step="0.01" min="0" name="salary" class="form-control"
-                                placeholder="Ex: 45000.00" value="{{ old('salary') }}">
+                                value="<?php echo e($employee->salary); ?>">
                         </div>
                     </div>
                 </div>
 
-                {{-- DOCUMENT CHECKLIST --}}
+                
                 <div class="form-section">
                     <div class="form-section-title">
                         <iconify-icon icon="solar:clipboard-check-outline"></iconify-icon>
@@ -403,28 +395,28 @@
                         <div class="checklist-title">Mark available employee documents</div>
 
                         <div class="row">
-                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_m_um" value="1"><label class="form-check-label">M/UM</label></div></div>
-                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_pension" value="1"><label class="form-check-label">Pention</label></div></div>
-                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_i_al" value="1"><label class="form-check-label">I.AL</label></div></div>
-                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_2_ca" value="1"><label class="form-check-label">2.CA</label></div></div>
-                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_3_wcl" value="1"><label class="form-check-label">3.WCL</label></div></div>
-                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_4_nic_c" value="1"><label class="form-check-label">4.NIC C</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_m_um" value="1" <?php echo e($employee->doc_m_um ? 'checked' : ''); ?>><label class="form-check-label">M/UM</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_pension" value="1" <?php echo e($employee->doc_pension ? 'checked' : ''); ?>><label class="form-check-label">Pention</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_i_al" value="1" <?php echo e($employee->doc_i_al ? 'checked' : ''); ?>><label class="form-check-label">I.AL</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_2_ca" value="1" <?php echo e($employee->doc_2_ca ? 'checked' : ''); ?>><label class="form-check-label">2.CA</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_3_wcl" value="1" <?php echo e($employee->doc_3_wcl ? 'checked' : ''); ?>><label class="form-check-label">3.WCL</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_4_nic_c" value="1" <?php echo e($employee->doc_4_nic_c ? 'checked' : ''); ?>><label class="form-check-label">4.NIC C</label></div></div>
 
-                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_5_bc" value="1"><label class="form-check-label">5.BC</label></div></div>
-                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_6_gnc" value="1"><label class="form-check-label">6.GNC</label></div></div>
-                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_7_pr" value="1"><label class="form-check-label">7.PR</label></div></div>
-                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_8_ec" value="1"><label class="form-check-label">8.EC</label></div></div>
-                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_9_qc" value="1"><label class="form-check-label">9.QC</label></div></div>
-                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_10_chc" value="1"><label class="form-check-label">10.CHC</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_5_bc" value="1" <?php echo e($employee->doc_5_bc ? 'checked' : ''); ?>><label class="form-check-label">5.BC</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_6_gnc" value="1" <?php echo e($employee->doc_6_gnc ? 'checked' : ''); ?>><label class="form-check-label">6.GNC</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_7_pr" value="1" <?php echo e($employee->doc_7_pr ? 'checked' : ''); ?>><label class="form-check-label">7.PR</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_8_ec" value="1" <?php echo e($employee->doc_8_ec ? 'checked' : ''); ?>><label class="form-check-label">8.EC</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_9_qc" value="1" <?php echo e($employee->doc_9_qc ? 'checked' : ''); ?>><label class="form-check-label">9.QC</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_10_chc" value="1" <?php echo e($employee->doc_10_chc ? 'checked' : ''); ?>><label class="form-check-label">10.CHC</label></div></div>
 
-                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_11_po" value="1"><label class="form-check-label">11.PO</label></div></div>
-                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_12_fp" value="1"><label class="form-check-label">12.FP</label></div></div>
-                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_13_ba" value="1"><label class="form-check-label">13.B/A</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_11_po" value="1" <?php echo e($employee->doc_11_po ? 'checked' : ''); ?>><label class="form-check-label">11.PO</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_12_fp" value="1" <?php echo e($employee->doc_12_fp ? 'checked' : ''); ?>><label class="form-check-label">12.FP</label></div></div>
+                            <div class="col-md-2 col-6"><div class="form-check"><input class="form-check-input" type="checkbox" name="doc_13_ba" value="1" <?php echo e($employee->doc_13_ba ? 'checked' : ''); ?>><label class="form-check-label">13.B/A</label></div></div>
                         </div>
                     </div>
                 </div>
 
-                {{-- REMARKS --}}
+                
                 <div class="form-section">
                     <div class="form-section-title">
                         <iconify-icon icon="solar:notes-outline"></iconify-icon>
@@ -434,12 +426,12 @@
                     <div class="row">
                         <div class="col-md-12 mb-0">
                             <label class="form-label">Remarks</label>
-                            <textarea name="remarks" class="form-control" rows="3" placeholder="Enter remarks if needed">{{ old('remarks') }}</textarea>
+                            <textarea name="remarks" class="form-control" rows="3"><?php echo e($employee->remarks); ?></textarea>
                         </div>
                     </div>
                 </div>
 
-                {{-- DYNAMIC CUSTOM SECTIONS --}}
+                
                 <div class="form-section">
                     <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap gap-2">
                         <div>
@@ -464,8 +456,8 @@
                 </div>
 
                 <div class="sticky-submit-bar">
-                    <a href="{{ route('admin.employees.index') }}" class="btn btn-light">Cancel</a>
-                    <button type="submit" class="btn btn-primary">Create Employee</button>
+                    <a href="<?php echo e(route('admin.employees.index')); ?>" class="btn btn-light">Cancel</a>
+                    <button type="submit" class="btn btn-primary">Update Employee</button>
                 </div>
             </form>
         </div>
@@ -484,15 +476,16 @@
             return `<input type="${type}" name="${fieldName}" class="form-control" value="${value ?? ''}" placeholder="Enter value">`;
         }
 
-        function addSection(defaultTitle = '') {
+        function addSection(defaultTitle = '', fields = []) {
             const wrapper = document.getElementById('dynamicSectionsWrapper');
+            const currentIndex = sectionIndex;
 
             const html = `
-                <div class="card mb-3 dynamic-section-card" data-section-index="${sectionIndex}">
+                <div class="card mb-3 dynamic-section-card" data-section-index="${currentIndex}">
                     <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
                         <div class="w-75">
                             <label class="form-label mb-1">Section Title</label>
-                            <input type="text" name="dynamic_sections[${sectionIndex}][section_title]" class="form-control" value="${defaultTitle}" placeholder="Ex: Father Details">
+                            <input type="text" name="dynamic_sections[${currentIndex}][section_title]" class="form-control" value="${defaultTitle}" placeholder="Ex: Father Details">
                         </div>
                         <div class="ms-3 mt-4">
                             <button type="button" class="btn btn-sm btn-outline-danger" onclick="this.closest('.dynamic-section-card').remove()">Remove Section</button>
@@ -500,12 +493,20 @@
                     </div>
                     <div class="card-body">
                         <div class="section-fields-wrapper"></div>
-                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="addFieldRow(this, ${sectionIndex})">+ Add Field</button>
+                        <button type="button" class="btn btn-outline-secondary btn-sm add-field-btn" onclick="addFieldRow(this, ${currentIndex})">+ Add Field</button>
                     </div>
                 </div>
             `;
 
             wrapper.insertAdjacentHTML('beforeend', html);
+
+            const insertedCard = wrapper.lastElementChild;
+            const addBtn = insertedCard.querySelector('.add-field-btn');
+
+            if (fields.length) {
+                fields.forEach(field => addFieldRow(addBtn, currentIndex, field));
+            }
+
             sectionIndex++;
         }
 
@@ -523,7 +524,7 @@
                     </div>
                     <div class="col-md-3 mb-2">
                         <label class="form-label">Input Type</label>
-                        <select name="dynamic_sections[${currentSectionIndex}][fields][${fieldIndex}][input_type]" class="form-select field-type-selector" onchange="changeFieldInput(this, ${currentSectionIndex}, ${fieldIndex})">
+                        <select name="dynamic_sections[${currentSectionIndex}][fields][${fieldIndex}][input_type]" class="form-select" onchange="changeFieldInput(this, ${currentSectionIndex}, ${fieldIndex})">
                             <option value="text" ${selectedType === 'text' ? 'selected' : ''}>Text</option>
                             <option value="number" ${selectedType === 'number' ? 'selected' : ''}>Number</option>
                             <option value="date" ${selectedType === 'date' ? 'selected' : ''}>Date</option>
@@ -552,7 +553,34 @@
             wrapper.innerHTML = createValueInput(sectionIdx, fieldIdx, selectElement.value, '');
         }
 
-        document.getElementById('createEmployeeForm').addEventListener('submit', function(e) {
+        <?php
+            $existingSections = $employee->detailSections
+                ->map(function ($section) {
+                    return [
+                        'section_title' => $section->section_title,
+                        'fields' => $section->fields
+                            ->map(function ($field) {
+                                return [
+                                    'field_label' => $field->field_label,
+                                    'input_type' => $field->input_type,
+                                    'field_value' => $field->field_value,
+                                ];
+                            })
+                            ->values()
+                            ->toArray(),
+                    ];
+                })
+                ->values()
+                ->toArray();
+        ?>
+
+        const existingSections = <?php echo json_encode($existingSections, 15, 512) ?>;
+
+        existingSections.forEach(section => {
+            addSection(section.section_title, section.fields);
+        });
+
+        document.getElementById('editEmployeeForm').addEventListener('submit', function(e) {
             e.preventDefault();
 
             let form = this;
@@ -593,4 +621,5 @@
                 });
         });
     </script>
-@endsection
+<?php $__env->stopSection(); ?>
+<?php echo $__env->make('layouts.vertical', ['subtitle' => 'Employee Edit'], array_diff_key(get_defined_vars(), ['__data' => 1, '__path' => 1]))->render(); ?><?php /**PATH F:\Personal Projects\Infotech\mis\resources\views/backend/pages/employees/edit.blade.php ENDPATH**/ ?>

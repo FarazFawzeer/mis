@@ -15,4 +15,4 @@
 
 </body>
 
-</html><?php /**PATH F:\Personal Projects\Infotech\cmi\resources\views/layouts/base.blade.php ENDPATH**/ ?>
+</html><?php /**PATH F:\Personal Projects\Infotech\mis\resources\views/layouts/base.blade.php ENDPATH**/ ?>
